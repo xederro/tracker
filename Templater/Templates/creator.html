@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-6">
+        <div class="card" style="width: 100%;">
+            <div class="card-header">
+                Add new
+            </div>
+            <form hx-post="/measurements"
+                  hx-target="main"
+                  hx-swap="innerHTML">
+                <div class="row g-3 align-items-center">
+                    <div class="col-12">
+                        <label for="Steps" class="form-label">Steps: <span id="StepsVal"></span></label>
+                        <input type="range" class="form-range" min="0" max="30000" step="1" id="Steps" name="Steps" onchange="StepsVal.innerHTML = this.value">
+                    </div>
+                    <div class="col-12">
+                        <label for="SleepDuration" class="form-label">Sleep Duration: <span id="SleepDurationVal"></span>h</label>
+                        <input type="range" class="form-range" min="0" max="24" id="SleepDuration" name="SleepDuration" onchange="SleepDurationVal.innerHTML = this.value">
+                    </div>
+                    <div class="col-12">
+                        <label for="SleepQuality" class="form-label">Sleep Quality: <span id="SleepQualityVal"></span>%</label>
+                        <input type="range" class="form-range" min="0" max="100" step="1" id="SleepQuality" name="SleepQuality" onchange="SleepQualityVal.innerHTML = this.value">
+                    </div>
+                    <div class="col-12">
+                        <label for="Mood" class="form-label">Mood: <span id="MoodVal"></span>/10</label>
+                        <input type="range" class="form-range" min="0" max="10" step="1" id="Mood" name="Mood" onchange="MoodVal.innerHTML = this.value">
+                    </div>
+                    <div class="col-12  ">
+                        <label for="Energy" class="form-label">Energy: <span id="EnergyVal"></span>/10</label>
+                        <input type="range" class="form-range" min="0" max="10" step="1" id="Energy" name="Energy" onchange="EnergyVal.innerHTML = this.value">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <input type="submit" value="Submit" class="btn btn-success">
+                    <button type="button" class="btn btn-danger" hx-get="/measurements">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

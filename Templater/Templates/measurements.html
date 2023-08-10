@@ -1,0 +1,114 @@
+{{ if (eq .New false) }}
+<div class="row justify-content-center">
+    <div class="col-6 alert alert-secondary text-center" role="alert">
+        You didn't add today's track.
+        <button
+                type="button"
+                class="btn btn-info"
+                hx-get="/measurements/add"
+                hx-trigger="click"
+                hx-target="main"
+                hx-swap="innerHTML">
+            <i class="bi bi-plus"></i>
+        </button>
+    </div>
+</div>
+{{end}}
+<div class="row justify-content-center">
+    <div class="col-6">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="row">Date</th>
+                <th>Steps</th>
+                <th>Sleep Duration</th>
+                <th>Sleep Quality</th>
+                <th>Mood</th>
+                <th>Energy</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{range $val := .Mes}}
+            <tr>
+                <th scope="row">{{$val.Id}}</th>
+                <td>{{ $val.Steps }}</td>
+                <td>{{ $val.SleepDuration }}h</td>
+                <td>{{ $val.SleepQuality }}%</td>
+                <td>{{ $val.Mood }}/10</td>
+                <td>{{ $val.Energy }}/10</td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button"
+                                class="btn btn-success"
+                                hx-get="/measurements/{{$val.Id}}"
+                                hx-trigger="click"
+                                hx-target="main"
+                                hx-swap="innerHTML">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button type="button" class="btn btn-warning"
+                                hx-get="/measurements/edit/{{$val.Id}}"
+                                hx-trigger="click"
+                                hx-target="main"
+                                hx-swap="innerHTML">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger"
+                                hx-delete="/measurements/{{$val.Id}}"
+                                hx-trigger="click"
+                                hx-target="main"
+                                hx-swap="innerHTML">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            {{end}}
+            </tbody>
+            {{ if (gt .Pages 1) }}
+            <tfoot class="m-0 p-0">
+                <tr class="m-0 p-0">
+                    <td colspan="7" class="m-0 p-0">
+                        <ul class="pagination pagination-lg justify-content-center m-0 p-0">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="First"
+                                   hx-get="/measurements/page/1"
+                                   hx-trigger="click"
+                                   hx-target="main"
+                                   hx-swap="innerHTML">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {{ if (ge .Prev 1) }}
+                            <li class="page-item"><a class="page-link" href="#"
+                                                     hx-get="/measurements/page/{{.Prev}}"
+                                                     hx-trigger="click"
+                                                     hx-target="main"
+                                                     hx-swap="innerHTML">{{.Prev}}</a></li>
+                            {{end}}
+                            <li class="page-item disabled active"><a class="page-link" href="#">{{.Cur}}</a></li>
+                            {{ if (le .Next .Pages) }}
+                            <li class="page-item"><a class="page-link" href="#"
+                                                     hx-get="/measurements/page/{{.Next}}"
+                                                     hx-trigger="click"
+                                                     hx-target="main"
+                                                     hx-swap="innerHTML">{{.Next}}</a></li>
+                            {{end}}
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Last"
+                                   hx-get="/measurements/page/{{.Pages}}"
+                                   hx-trigger="click"
+                                   hx-target="main"
+                                   hx-swap="innerHTML">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tfoot>
+            {{end}}
+        </table>
+    </div>
+</div>
